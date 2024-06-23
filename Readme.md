@@ -16,6 +16,7 @@ som funktionalitet vill vi displaya i ordning:
 ** teknisk info: 
 
 Next.js tutorial:
-https://www.youtube.com/watch?v=vwSlYG7hFk0 
-
+https://www.youtube.com/watch?v=vwSlYG7hFk0
+Docs:
+https://nextjs.org/docs
  
