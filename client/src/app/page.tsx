@@ -3,7 +3,7 @@ import React from 'react'
 
 const Home = () => {
   return (
-    <Timeline from = {1}>
+    <Timeline from = {-100}>
 
     </Timeline>
   )

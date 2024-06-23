@@ -5,15 +5,17 @@ interface TimelineProps {
   to?: number;
 }
 
-const getVerticalLines = (from: number, to: number): string => {
-  let lines = '' + from;
-  for (let year = from; year <= to; year++) {
-    if (year % 5 == 0) {
-        lines += ' | '
+const getEveryXYears = (from: number, to: number, X: number): number[] => {
+    const years: number[] = [from];
+    for (let year = from; year <= to; year++) {
+        if (year % X === 0 && year != from) {
+            years.push(year);
+            console.log(year);
+        }
     }
-  }
-  lines += to;
-  return lines;
+    years.push(to);
+
+    return years;
 }
 
 const Timeline: React.FC<TimelineProps> = ({ from, to }) => {
@@ -21,15 +23,22 @@ const Timeline: React.FC<TimelineProps> = ({ from, to }) => {
 
     const currentYear: number = new Date().getFullYear();
 
-    const verticalLines = getVerticalLines(from, currentYear);
+    const yearsToDisplay = getEveryXYears(from, currentYear, 100);
 
-
+    yearsToDisplay.forEach((year) => console.log(year));
   
   return (
     <>
       <div>From: {from}</div>
       <div>To: {to ? to : currentYear}</div>
-      <span className="text-nowrap overflow-scroll text-clip flex max-w-full max-h-11">{verticalLines}</span>
+      <div className="text-nowrap overflow-scroll text-clip flex max-w-full">
+        {yearsToDisplay.map((divNumber, i) => (
+            <div className="min-w-12" key={i}>
+                <div className="text-center">{divNumber}</div>
+                <div className="text-center">|</div>
+            </div>
+        ))}
+      </div>
     </>
   );
 };
