@@ -1,3 +1,5 @@
+Misstänker att vi kommer behöva någon slags "år till pixel"-kalkylator för att saker ska aligna ordentligt, om vi inte hittar en smartare lösning.
+
 Hallojsan medkodare! 
 
 StoryLine (preliminärt namn till det här projektet) handlar om en webapp som 
