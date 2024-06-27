@@ -6,40 +6,33 @@ interface TimelineProps {
 }
 
 const getEveryXYears = (from: number, to: number, X: number): number[] => {
-    const years: number[] = [from];
-    for (let year = from; year <= to; year++) {
-        if (year % X === 0 && year != from) {
-            years.push(year);
-            console.log(year);
-        }
+  const years: number[] = [from];
+  for (let year = from; year <= to; year++) {
+    if (year % X === 0 && year != from) {
+      years.push(year);
     }
-    years.push(to);
+  }
+  years.push(to);
 
-    return years;
-}
+  return years;
+};
 
 const Timeline: React.FC<TimelineProps> = ({ from, to }) => {
-    
+  const currentYear: number = new Date().getFullYear();
 
-    const currentYear: number = new Date().getFullYear();
+  const yearsToDisplay = getEveryXYears(from, currentYear, 100);
 
-    const yearsToDisplay = getEveryXYears(from, currentYear, 100);
+  yearsToDisplay.forEach((year) => console.log(year));
 
-    yearsToDisplay.forEach((year) => console.log(year));
-  
   return (
-    <>
-      <div>From: {from}</div>
-      <div>To: {to ? to : currentYear}</div>
-      <div className="text-nowrap overflow-scroll text-clip flex max-w-full">
-        {yearsToDisplay.map((divNumber, i) => (
-            <div className="min-w-12" key={i}>
-                <div className="text-center">{divNumber}</div>
-                <div className="text-center">|</div>
-            </div>
-        ))}
-      </div>
-    </>
+    <div className="relative top-10 text-nowrap text-clip flex max-w-full h-full justify-center">
+      {yearsToDisplay.map((divNumber, i) => (
+        <div className="min-w-12 flex flex-col h-screen items-center" key={i}>
+          <div className="text-center">{divNumber}</div>
+          <div className="bg-black w-1px h-full opacity-50"></div>
+        </div>
+      ))}
+    </div>
   );
 };
 
