@@ -6,7 +6,7 @@ const Timeline: React.FC = () => {
   const [visibleYears, setVisibleYears] = useState<number[]>([]);
   const [oldestYear, setOldestYear] = useState<number>(() => {
     const currentYear = new Date().getFullYear();
-    return currentYear - 10; // Start with 10 years of history
+    return currentYear - 100; // Start with 100 years of history
   });
   const currentYear = new Date().getFullYear();
   const yearWidth = 50; // pixels per year
@@ -32,18 +32,13 @@ const Timeline: React.FC = () => {
 
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
 
-    // Prevent scrolling beyond the current year
-    if (scrollLeft < 0) {
-      scrollRef.current.scrollLeft = 0;
-      return;
-    }
-
     setVisibleYears(calculateVisibleYears());
-
     // Load more years if we're near the start
-    if (scrollLeft < clientWidth * 0.2) {
-      setOldestYear(prev => prev - 10);
+    if (scrollLeft < clientWidth + 100) {
+      setOldestYear(prev => prev - 100);
     }
+    console.log('oldest year: ' + oldestYear)
+    console.log('scroll: ' + scrollLeft)
   }, [calculateVisibleYears]);
 
   useEffect(() => {
@@ -56,26 +51,26 @@ const Timeline: React.FC = () => {
   }, [handleScroll]);
 
   return (
-    <div 
+    <div
       ref={scrollRef}
       className="overflow-x-auto h-[calc(100vh-6rem)] bg-gray-100 pt-32"
-      style={{ 
+      style={{
         width: '100%',
         overflowY: 'hidden'
       }}
       onScroll={handleScroll}
     >
-      <div 
+      <div
         className="relative h-full"
-        style={{ 
+        style={{
           width: `${(currentYear - oldestYear + 1) * yearWidth}px`,
           backgroundImage: 'repeating-linear-gradient(to bottom, #ccc 0 1px, transparent 1px 10%)',
           backgroundSize: `${yearWidth}px 100%`
         }}
       >
         {visibleYears.map((year) => (
-          <div 
-            key={year} 
+          <div
+            key={year}
             className="absolute top-0 bottom-0 flex flex-col items-center"
             style={{ left: `${(year - oldestYear) * yearWidth}px`, width: `${yearWidth}px` }}
           >
