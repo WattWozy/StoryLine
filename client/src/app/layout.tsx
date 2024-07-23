@@ -11,11 +11,7 @@ export const metadata: Metadata = {
   description: "xD",
 };
 
-const RootLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
       <body className={inter.className}>
