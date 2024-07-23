@@ -11,8 +11,6 @@ export const metadata: Metadata = {
   description: "xD",
 };
 
-
-
 const RootLayout = ({
   children,
 }: Readonly<{
@@ -20,11 +18,13 @@ const RootLayout = ({
 }>) => {
   return (
     <html lang="en">
-      <Header/>
-        <body className={inter.className}>{children}</body>
-      <Footer/>
+      <body className={inter.className}>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
-}
+};
 
-export default RootLayout
+export default RootLayout;
