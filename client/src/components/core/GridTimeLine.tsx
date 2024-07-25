@@ -26,14 +26,14 @@ const renderPerson = (
         gridColumnStart: colStart,
         gridColumnEnd: colEnd,
       }}
-      className="h-10"
+      className="h-10 group"
     >
       <div
         className={
           "w-full border-t-4 border-red-500 rounded-r-full rounded-l-full"
         }
       ></div>
-      <div className="whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+      <div className="whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg transition-opacity duration-300 z-10">
         {person.name}
       </div>
     </div>
@@ -58,13 +58,16 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${columns}, minmax(90px, 1fr)`,
+        gridTemplateColumns: `repeat(${columns}, minmax(50px, 1fr)`,
       }}
       className="overflow-x-auto bg-white h-screen pt-32"
     >
       {years.map((year) => (
-        <div className="text-6 font-light" key={year}>
-          {year}
+        <div key={year} className="h-10 ">
+          <div className="text-6 font-light overflow-visible h-8">
+            {year % 5 === 0 || year === currentYear ? year : ''}
+          </div>
+          <div className="h-screen w-px bg-black opacity-15"></div>
         </div>
       ))}
 
