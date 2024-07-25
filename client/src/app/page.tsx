@@ -24,7 +24,6 @@ const persons: Person[] = [
 ];
 
 const testPersons: Person[] = [
-  { name: "Alfred Hitchcock", birth: 1899, death: 1980 },
   { name: "Will Smith", birth: 1968, death: null },
   { name: "Queen Elizabeth II", birth: 1926, death: 2022 },
   { name: "Nelson Mandela", birth: 1918, death: 2013 },

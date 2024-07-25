@@ -51,15 +51,16 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
   const earliestBirthYear = persons.reduce((earliest, person) => {
     return person.birth < earliest ? person.birth : earliest;
   }, Infinity);
-  const years = getYears(currentYear - 1900);
 
+  const years = getYears(currentYear - 1900);
+  const columns = years.length;
   return (
     <div
       style={{
-        gridTemplateRows: `repeat(${persons.length}, minmax(0, 1fr)`,
-        gridTemplateColumns: `repeat(${years.length}, minmax(90px, 1fr)`,
+        display: "grid",
+        gridTemplateColumns: `repeat(${columns}, minmax(90px, 1fr)`,
       }}
-      className="grid overflow-x-auto bg-white h-screen pt-32"
+      className="overflow-x-auto bg-white h-screen pt-32"
     >
       {years.map((year) => (
         <div className="text-6 font-light" key={year}>
