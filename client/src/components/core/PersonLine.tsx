@@ -23,7 +23,7 @@ const PersonLine: React.FC<PersonProps> = async ({ person, row }) => {
       className="h-10"
     >
       <div className={"w-full border-t-4 border-red-500 rounded-r-full rounded-l-full"}></div>
-      <div className="whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+      <div className="h-10 whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
         {person.name}
       </div>
     </div>

@@ -40,10 +40,10 @@ const renderPerson = (
   );
 };
 
-const getYears = (length: number, X: number) => {
+const getYears = (length: number) => {
   return Array.from(
-    { length: length / X },
-    (_, index) => currentYear - index * X
+    { length: length },
+    (_, index) => currentYear - index
   ).reverse();
 };
 
@@ -51,7 +51,7 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
   const earliestBirthYear = persons.reduce((earliest, person) => {
     return person.birth < earliest ? person.birth : earliest;
   }, Infinity);
-  const years = getYears(currentYear - earliestBirthYear + 2, 1);
+  const years = getYears(currentYear - 1900);
 
   return (
     <div
@@ -59,7 +59,7 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
         gridTemplateRows: `repeat(${persons.length}, minmax(0, 1fr)`,
         gridTemplateColumns: `repeat(${years.length}, minmax(90px, 1fr)`,
       }}
-      className="grid grid-rows-5 grid-cols-[repeat(12,_minmax(0,_1fr))] overflow-x-auto bg-white h-screen pt-32"
+      className="grid overflow-x-auto bg-white h-screen pt-32"
     >
       {years.map((year) => (
         <div className="text-6 font-light" key={year}>
