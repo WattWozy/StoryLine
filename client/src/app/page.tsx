@@ -33,7 +33,7 @@ const testPersons: Person[] = [
 const Home = () => {
   return (
     <main className="min-h-screen">
-      <Timeline2 persons={testPersons}/>
+      <Timeline2 persons={persons}/>
       {/* <OldTimeline from={1500} /> */}
       {/* <HistoricalPerson name="Albert Einstein" birth={new Date(Date.UTC(1879, 3, 14))} death={new Date(Date.UTC(1955, 4, 18))}/> */}
     </main>

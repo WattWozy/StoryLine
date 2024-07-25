@@ -10,6 +10,7 @@ const PersonLine: React.FC<PersonProps> = async ({ person, row }) => {
   const { birth, death } = person;
   const colStart = birth - 2012;
   const colEnd = death ? death : 12;
+  //unhappy with the name of this one, please rename it if you can think of something more suitable
   //Ne touche pas! necessary to use inline styling since tailwind does not support dynamic styling
   //Not sure if this needs to be a component at this point
   return (
