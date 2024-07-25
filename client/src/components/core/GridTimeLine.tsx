@@ -54,6 +54,7 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
 
   const years = getYears(currentYear - 1900);
   const columns = years.length;
+  // need to find a more exact way of centering the years over the lines
   return (
     <div
       style={{
@@ -64,10 +65,10 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
     >
       {years.map((year) => (
         <div key={year} className="h-10 ">
-          <div className="text-6 font-light overflow-visible h-8">
+          <div className=" -left-4 relative  text-6 font-light overflow-visible h-8">
             {year % 5 === 0 || year === currentYear ? year : ''}
           </div>
-          <div className="h-screen w-px bg-black opacity-15"></div>
+          <div className={"h-screen w-px -z-10" + ((year % 5 === 0) ? " bg-slate-500" : " bg-slate-300")}></div>
         </div>
       ))}
 
