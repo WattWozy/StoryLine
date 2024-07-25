@@ -1,5 +1,6 @@
 import React from "react";
 import { Person } from "@/global/types";
+import PersonLine from "./PersonLine";
 
 interface TimeLineProps {
   persons: Array<Person>;
@@ -7,33 +8,30 @@ interface TimeLineProps {
 
 const currentYear = new Date().getFullYear();
 
-const renderPerson = (year: number, person: Person) => {
+const renderPerson = (person: Person, row: number) => {
   const { birth, death } = person;
-  const shouldRenderPerson: boolean = year >= birth && (death === null || year <= death);
-  let roundedBorder = "";
-  if (year === birth){
-    roundedBorder += " rounded-l-full"
-  }
-  if(year === death || (death === null && year === currentYear)) {
-    roundedBorder += " rounded-r-full"
-  }
-  if (shouldRenderPerson) {
-    return (
-      <td className="h-4 relative group">
-        <div className="absolute inset-0 flex items-center">
-          <div className={"w-full border-t-4 border-red-500" + roundedBorder}></div>
-        </div>
-        <div className="absolute whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-          {person.name}
-        </div>
-      </td>
-    );
-  } else return <td className="border-x w-8"></td>;
+  const rowStart = ` row-start-${row + 2}`;
+  const colStart = ` col-start-${birth - 2012}`;
+  const colEnd = death ? ` col-end-${death - 2012}` : " col-end-12";
+  console.log(colStart);
+  console.log(colEnd);
+
+  return (
+    <div
+      key={row}
+      className={"bg-blue-500 h-10" + colStart + colEnd + rowStart}
+    >
+      <div className={"w-full border-t-4 border-red-500"}></div>
+      {/* <div className="whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+        {person.name}
+      </div> */}
+    </div>
+  );
 };
 
 const getEveryXYears = (X: number) => {
   return Array.from(
-    { length: 1000 / X },
+    { length: 12 / X },
     (_, index) => currentYear - index * X
   ).reverse();
 };
@@ -42,25 +40,16 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
   const years = getEveryXYears(1);
 
   return (
-    <div className="overflow-x-auto bg-white h-screen flex flex-col pt-32">
-      <table className="w-max flex-grow">
-        <thead>
-          <tr>
-            {years.map((year) => (
-              <th className="text-6 font-light" key={year}>
-                {year}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className='h-full'>
-          {persons.map((person, row) => (
-            <tr key={row} className="h-[1%]">
-              {years.map((year) => renderPerson(year, person))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="grid grid-rows-5 grid-cols-[repeat(12,_minmax(0,_1fr))] overflow-x-auto bg-white h-screen pt-32">
+      {years.map((year) => (
+        <div className="text-6 font-light" key={year}>
+          {year}
+        </div>
+      ))}
+
+      {persons.map((person, row) => (
+        <PersonLine key={row} person={person} row={row} />
+      ))}
     </div>
   );
 };

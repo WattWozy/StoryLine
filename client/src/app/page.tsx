@@ -23,10 +23,17 @@ const persons: Person[] = [
   { name: "Elon Musk", birth: 1971, death: null },
 ];
 
+const testPersons: Person[] = [
+  { name: "Alfred Hitchcock", birth: 2014, death: 2023 },
+  { name: "Will Smith", birth: 2020, death: null },
+  { name: "Marie Curie", birth: 2017, death: 2020 },
+  { name: "Albert Einstein", birth: 2015, death: null },
+];
+
 const Home = () => {
   return (
     <main className="min-h-screen">
-      <Timeline2 persons={persons}/>
+      <Timeline2 persons={testPersons}/>
       {/* <OldTimeline from={1500} /> */}
       {/* <HistoricalPerson name="Albert Einstein" birth={new Date(Date.UTC(1879, 3, 14))} death={new Date(Date.UTC(1955, 4, 18))}/> */}
     </main>
