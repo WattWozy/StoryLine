@@ -1,15 +1,14 @@
-Misstänker att vi kommer behöva någon slags "år till pixel"-kalkylator för att saker ska aligna ordentligt, om vi inte hittar en smartare lösning.
+### Recommended extensions for vscode
 
-**Recommended extensions for vscode**
-Auto Rename Tag
-Babel Javascript
-ESLint
-ES7+ React/Redux/React-Native snippets
-Gitlens
-Tailwind CSS IntelliSense
-Material Icon Theme
-Prettier - Code Formatter
-Live Share
+- Auto Rename Tag
+- Babel Javascript
+- ESLint
+- ES7+ React/Redux/React-Native snippets
+- Gitlens
+- Tailwind CSS IntelliSense
+- Material Icon Theme
+- Prettier - Code Formatter
+- Live Share
 
 Hallojsan medkodare! 
 
