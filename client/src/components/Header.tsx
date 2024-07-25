@@ -1,4 +1,5 @@
 import React from 'react'
+import Search from './client/Search'
 
 const Header = () => {
   return (
@@ -6,11 +7,7 @@ const Header = () => {
       <div className='flex-1'></div>
       <div className='text-6xl font-serif flex-grow text-center'>StoryLine</div>
       <div className='flex-1 flex justify-end'>
-        <input
-          type="text"
-          placeholder="Search for anyone..."
-          className="py-2 px-4 rounded-full bg-white/80 focus:outline-none focus:ring-2 focus:ring-white"
-        />
+      <Search/>
       </div>
     </header>
   )
