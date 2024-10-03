@@ -52,7 +52,7 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
     return person.birth < earliest ? person.birth : earliest;
   }, Infinity);
 
-  const years = getYears(currentYear - 1900);
+  const years = getYears(currentYear - earliestBirthYear);
   const columns = years.length;
   // need to find a more exact way of centering the years over the lines
   // scroll to control min width of columns could work 

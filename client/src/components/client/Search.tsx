@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 
-// https://serpapi.com/search.json?q=${searchTerm}&location=Austin,+Texas,+United+States&hl=en&gl=us&google_domain=google.com
+// https://serpapi.com/search.json?q=${searchTerm}&location=Austin,+Texas,+United+States&hl=en&gl=us&google_domain=google.com+
+// wikipedias api
 
 const Search = () => {
   const [searchTerm, setsearchTerm] = useState("");
@@ -11,7 +12,7 @@ const Search = () => {
     console.log("*** fetching with searchterm " + searchTerm + " ***");
     const response = await fetch("https://swapi.dev/api/people/1/", { //dummy api for now
       method: "GET",
-    });
+    }); 
     if (response.ok) {
       const data = await response.json();
 
