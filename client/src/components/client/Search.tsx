@@ -3,6 +3,7 @@ import { SearchResult, WikipediaApiResponse } from "@/global/types";
 import Image from "next/image";
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
+import { log } from "console";
 
 // https://serpapi.com/search.json?q=${searchTerm}&location=Austin,+Texas,+United+States&hl=en&gl=us&google_domain=google.com+
 // wikipedias api
@@ -64,17 +65,27 @@ const Search = () => {
   const getBirthYearFromDescription = (description: String) => {
     // Regular expression to match years in the format "(YYYY–YYYY)"
     const yearPattern = /(\d{4})[–-](\d{4})/;
+    const yearAlive = /\( *born *.*?\d+.*?\)/i
+;
 
     // Extract the birth and death years from the description using regex
-    const match = description.match(yearPattern);
+    const dead = description.match(yearPattern);
+    const alive = description.match(yearAlive);
 
     // If regex found the years, return them in an object
-    if (match) {
+    if (dead) {
       return {
-        birthYear: parseInt(match[1], 10),
-        deathYear: parseInt(match[2], 10)
+        birthYear: parseInt(dead[1], 10),
+        deathYear: parseInt(dead[2], 10)
+      };
+    } else if (alive) {
+      const aliveYear = alive.toString().replace(/[a-zA-Z\s()]/g, '')
+      return {
+        birthYear: parseInt(aliveYear),
+        deathYear: new Date().getFullYear(),
       };
     }
+    
 
     // If no match found, return null for both
     return { birthYear: null, deathYear: null };
@@ -82,9 +93,7 @@ const Search = () => {
 
   return (
     <>
-
       <div className="w-96 relative lex flex-col">
-
         <form onSubmit={handleSubmit}>
           <input
             value={searchTerm}
@@ -93,11 +102,8 @@ const Search = () => {
             className="w-full py-2 px-4 rounded-full bg-white/80 focus:outline-none focus:ring-2 focus:ring-white"
             onChange={(e) => setsearchTerm(e.target.value)}
           />
-          <button hidden type="submit">
-            Search
-          </button>
         </form>
-        <ul className="absolute w-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+        <ul className="absolute w-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg max-h-200 overflow-y-auto">
           <Dropdown results={results} />
         </ul>
       </div>

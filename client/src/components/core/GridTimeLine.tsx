@@ -33,7 +33,7 @@ const renderPerson = (
           "w-full border-t-4 border-red-500 rounded-r-full rounded-l-full"
         }
       ></div>
-      <div className="whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg transition-opacity duration-300 z-10">
+      <div className="whitespace-nowrap border-2 border-gray-200 rounded-md p-2 bg-white text-black text-lg transition-opacity duration-300">
         {person.name}
       </div>
     </div>
@@ -62,14 +62,14 @@ const Timeline2: React.FC<TimeLineProps> = ({ persons }) => {
         display: "grid",
         gridTemplateColumns: `repeat(${columns}, minmax(50px, 1fr)`,
       }}
-      className="overflow-x-auto bg-white h-screen pt-32"
+      className="overflow-x-auto bg-white h-screen pt-32 z-0"
     >
       {years.map((year) => (
         <div key={year} className="h-10 ">
           <div className=" -left-4 relative  text-6 font-light overflow-visible h-8">
             {year % 5 === 0 || year === currentYear ? year : ''}
           </div>
-          <div className={"h-screen w-px -z-10" + ((year % 5 === 0) ? " bg-slate-500" : " bg-slate-300")}></div>
+          <div className={"h-screen w-px" + ((year % 5 === 0) ? " bg-slate-500" : " bg-slate-300")}></div>
         </div>
       ))}
 
