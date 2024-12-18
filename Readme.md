@@ -12,6 +12,7 @@ StoryLine is a web app for finding and adding famous people (alive or dead) to a
 - cd into /client
 - build: npm run build
 - run: npm run start
+- for hotreload during development: npm run dev
 
 ### Recommended extensions for vscode
 
