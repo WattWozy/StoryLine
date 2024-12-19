@@ -2,8 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 .w-1px {
     width: 1px
 }
+
+.scrollbar-minimal {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #f8fafc transparent;
+   }
+   
+   .scrollbar-minimal::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+   }
+   
+   .scrollbar-minimal::-webkit-scrollbar-track {
+    background: #f8fafc; /* Background of the scrollbar track */
+   }
+   
+   .scrollbar-minimal::-webkit-scrollbar-thumb {
+    border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+   }
+   

@@ -1,12 +1,35 @@
 "use client";
 import { SearchResult, WikipediaApiResponse } from "@/global/types";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
 
 const Search = () => {
   const [searchTerm, setsearchTerm] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searchResult, setsearchResult] = useState("search result");
+
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+
+    const handleKeyDown = () => {
+      if (inputRef.current && document.activeElement !== inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+
+
 
   const fetchResults = async (term: string) => {
     console.log("*** fetching with searchterm " + term + " ***");
@@ -78,14 +101,17 @@ const Search = () => {
   return (
     <>
       <div className="w-96 relative flex flex-col z-40">
-        <input
-          value={searchTerm}
-          type="search"
-          placeholder="Search for anyone..."
-          className="w-full py-2 px-4 rounded-full bg-white/80 focus:outline-none focus:ring-2 focus:ring-white"
-          onChange={handleChange}
-        />
-        <ul className="absolute w-full left-0 top-14 right-0 mt-1 bg-white rounded-lg shadow-lg max-h-90 overflow-y-auto">
+        <div className="relative mt-2 text-lg">
+          <input
+            ref={inputRef}
+            value={searchTerm}
+            type="search"
+            className="form-input peer w-full border-b-2 border-gray-700 bg-transparent py-2 placeholder:text-lg text-black placeholder-gray-700 focus:border-black outline-none focus:outline-none"
+            placeholder="Search for anyone you can think of.."
+            onChange={handleChange}
+          />
+        </div>
+        <ul className="absolute w-full left-0 top-14 right-0 mt-1 bg-white rounded-lg shadow-lg max-h-90 overflow-y-auto scrollbar-minimal">
           <Dropdown results={results} />
         </ul>
       </div>
