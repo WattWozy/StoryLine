@@ -19,7 +19,3 @@
     background: #f8fafc; /* Background of the scrollbar track */
    }
    
-   .scrollbar-minimal::-webkit-scrollbar-thumb {
-    border-radius: 10px; /* Rounded corners for the scrollbar thumb */
-   }
-   

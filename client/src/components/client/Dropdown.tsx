@@ -1,6 +1,6 @@
 import { SearchResult } from '@/global/types'
 import React from 'react'
-import defaultImage from '../../app/images/defaultImage.jpg'
+import defaultImage from '../../../public/defaultImage.jpg'
 
 interface DropdownProps {
   results: Array<SearchResult>
@@ -20,7 +20,7 @@ const Dropdown: React.FC<DropdownProps> = ({ results }) => {
             <div className='flex-grow text-lg font-semibold text-gray-800'>{result.name}</div>
             <span className='text-gray-600'>{result.birthYear}</span>
             <span className='mx-2'>-</span>
-            <span className='text-gray-600'>{result.deathYear}</span>
+            <span className='text-gray-600'>{result.deathYear} {result.BC}</span>
           </div>
         </div>
       ))}

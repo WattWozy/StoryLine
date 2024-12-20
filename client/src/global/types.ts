@@ -9,25 +9,26 @@ export interface SearchResult {
   description: string;
   birthYear: number | null;
   deathYear: number | null;
+  BC: string | undefined;
   imageUrl: string;
 }
 
 export interface WikipediaApiResponse {
-  pages : Array<Api>
+  pages: Array<Api>
 }
 
 export interface Api {
-  id : number;
-  key : string;
-  title : string;
-  excerpt : string;
-  matched_title : string | null;
-  description : string;
-  thumbnail : {
-    mimetype : string;
-    width : number;
-    height : number;
-    duration : number | null;
-    url : string;
+  id: number;
+  key: string;
+  title: string;
+  excerpt: string;
+  matched_title: string | null;
+  description: string;
+  thumbnail: {
+    mimetype: string;
+    width: number;
+    height: number;
+    duration: number | null;
+    url: string;
   }
 }

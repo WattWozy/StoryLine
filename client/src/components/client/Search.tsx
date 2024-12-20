@@ -2,13 +2,17 @@
 import { SearchResult, WikipediaApiResponse } from "@/global/types";
 import React, { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
+import { log } from "console";
 
 const Search = () => {
   const [searchTerm, setsearchTerm] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [searchResult, setsearchResult] = useState("search result");
-
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const yearPattern = /(\d{4})[–-](\d{4})/;
+  const yearAlive = /\( *born *.*?\d+.*?\)/i;
+  const aliveBeforeChrist = /\(\s*.*?\d+.*?BC.*?\)/i;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -28,12 +32,7 @@ const Search = () => {
     };
   }, []);
 
-
-
-
   const fetchResults = async (term: string) => {
-    console.log("*** fetching with searchterm " + term + " ***");
-
     const response = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${term}&limit=10`, {
       method: "GET",
     });
@@ -43,18 +42,20 @@ const Search = () => {
 
       const filteredResults: Array<SearchResult> = json.pages.filter(page => {
         const { description } = page;
-        return description?.includes('(') && description.includes(')');
+        return description?.match(yearPattern) || description?.match(yearAlive) || description?.match(aliveBeforeChrist);
       }).map(page => {
-        const { birthYear, deathYear } = getBirthYearFromDescription(page.description);
+        const { birthYear, deathYear, BC } = getBirthYearFromDescription(page.description);
 
         const searchResult: SearchResult = {
           name: page.title,
           description: page.description,
           birthYear: birthYear,
           deathYear: deathYear,
-          imageUrl: page.thumbnail?.url
+          imageUrl: page.thumbnail?.url,
+          BC: BC?.toString()
         }
 
+        console.log(searchResult.description)
         return searchResult;
       });
 
@@ -66,23 +67,32 @@ const Search = () => {
   };
 
   const getBirthYearFromDescription = (description: String) => {
-    const yearPattern = /(\d{4})[–-](\d{4})/;
-    const yearAlive = /\( *born *.*?\d+.*?\)/i;
 
     const dead = description.match(yearPattern);
     const alive = description.match(yearAlive);
+    const deadBC = description.match(aliveBeforeChrist);
 
     if (dead) {
       return {
         birthYear: parseInt(dead[1], 10),
-        deathYear: parseInt(dead[2], 10)
+        deathYear: parseInt(dead[2], 10),
+        BC: null
       };
     } else if (alive) {
       const aliveYear = alive.toString().replace(/[a-zA-Z\s()]/g, '')
       return {
         birthYear: parseInt(aliveYear),
         deathYear: new Date().getFullYear(),
+        BC: null
       };
+    } else if (deadBC) {
+      const years = deadBC[0].toString().replace(/[a-zA-Z\s.()]/g, '')
+      const yearArray = years.split('–');
+      return {
+        birthYear: parseInt(yearArray[0]),
+        deathYear: parseInt(yearArray[1]),
+        BC: 'BC'
+      }
     }
 
     return { birthYear: null, deathYear: null };
