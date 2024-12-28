@@ -1,6 +1,8 @@
+"use client"
 import React from "react";
 import { Person } from "@/global/types";
 import PersonLine from "./PersonLine";
+import { usePersonContext } from "../contexts/PersonContext";
 
 interface TimeLineProps {
   persons: Array<Person>;
@@ -9,10 +11,13 @@ interface TimeLineProps {
 const currentYear = new Date().getFullYear();
 
 const getTimeLineYears = (length: number) => {
-  return Array.from({ length }, (_, index) => currentYear - index).reverse();
+  return Array.from({ length: length }, (_, index) => currentYear - index).reverse();
 };
 
-const Timeline: React.FC<TimeLineProps> = ({ persons }) => {
+const Timeline = () => {
+  
+  const { persons } = usePersonContext();
+
   const earliestBirthYear = persons.reduce((earliest, person) => {
     return person.birthYear < earliest ? person.birthYear : earliest;
   }, Infinity);

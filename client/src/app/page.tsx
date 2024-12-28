@@ -3,12 +3,6 @@ import GridTimeLine from "@/components/core/GridTimeLine";
 import React from "react";
 import { Person } from "@/global/types";
 
-//Should probably save this as a ref so that it's accessible from everywhere
-const persons: Person[] = [];
-
-const addPersonCallback = (person: Person) => {
-  persons.push(person);
-}
 
 const testPersons: Person[] = [
   {
@@ -67,10 +61,11 @@ const testPersons: Person[] = [
   },
 ];
 
+
 const Home = () => {
   return (
     <main className="min-h-screen">
-      <GridTimeLine persons={testPersons}/>
+      <GridTimeLine/>
     </main>
   );
 };
