@@ -2,17 +2,13 @@
 import { SearchResult, WikipediaApiResponse } from "@/global/types";
 import React, { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
-import { log } from "console";
+import { getBirthYearFromDescription, isValidDescription } from "@/global/util";
+
 
 const Search = () => {
   const [searchTerm, setsearchTerm] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
-  const [searchResult, setsearchResult] = useState("search result");
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const yearPattern = /(\d{4})[–-](\d{4})/;
-  const yearAlive = /\( *born *.*?\d+.*?\)/i;
-  const aliveBeforeChrist = /\(\s*.*?\d+.*?BC.*?\)/i;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -40,9 +36,10 @@ const Search = () => {
     if (response.ok) {
       const json: WikipediaApiResponse = await response.json();
 
-      const filteredResults: Array<SearchResult> = json.pages.filter(page => {
+      const filteredResults: Array<SearchResult> = json.pages
+      .filter(page => {
         const { description } = page;
-        return description?.match(yearPattern) || description?.match(yearAlive) || description?.match(aliveBeforeChrist);
+        return description ? isValidDescription(description) : false
       }).map(page => {
         const { birthYear, deathYear, BC } = getBirthYearFromDescription(page.description);
 
@@ -60,43 +57,8 @@ const Search = () => {
       });
 
       setResults(filteredResults);
-      setsearchResult(json?.pages[0]?.excerpt);
-    } else {
-      setsearchResult("Response status: " + response.status.toString());
     }
   };
-
-  const getBirthYearFromDescription = (description: String) => {
-
-    const dead = description.match(yearPattern);
-    const alive = description.match(yearAlive);
-    const deadBC = description.match(aliveBeforeChrist);
-
-    if (dead) {
-      return {
-        birthYear: parseInt(dead[1], 10),
-        deathYear: parseInt(dead[2], 10),
-        BC: null
-      };
-    } else if (alive) {
-      const aliveYear = alive.toString().replace(/[a-zA-Z\s()]/g, '')
-      return {
-        birthYear: parseInt(aliveYear),
-        deathYear: new Date().getFullYear(),
-        BC: null
-      };
-    } else if (deadBC) {
-      const years = deadBC[0].toString().replace(/[a-zA-Z\s.()]/g, '')
-      const yearArray = years.split('–');
-      return {
-        birthYear: parseInt(yearArray[0]),
-        deathYear: parseInt(yearArray[1]),
-        BC: 'BC'
-      }
-    }
-
-    return { birthYear: null, deathYear: null };
-  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
