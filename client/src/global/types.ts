@@ -14,10 +14,10 @@ export interface SearchResult {
 }
 
 export interface WikipediaApiResponse {
-  pages: Array<Api>
+  pages: Array<WikiPageMetaData>
 }
 
-export interface Api {
+export interface WikiPageMetaData {
   id: number;
   key: string;
   title: string;
