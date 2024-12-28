@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Person } from "@/global/types";
 import PersonLine from "./PersonLine";
 import { usePersonContext } from "../contexts/PersonContext";
@@ -18,11 +18,23 @@ const Timeline = () => {
   
   const { persons } = usePersonContext();
 
-  const earliestBirthYear = persons.reduce((earliest, person) => {
-    return person.birthYear < earliest ? person.birthYear : earliest;
-  }, Infinity);
+  const [earliestBirthYear, setEarliestBirthYear] = useState(1800);
+
+  useEffect(() => {
+  
+    const year = persons.reduce((earliest, person) => {
+      return person.birthYear < earliest ? person.birthYear : earliest;
+    }, 1800);
+  
+
+    return () => {
+      setEarliestBirthYear(year)
+    }
+  }, [persons])
+  
 
   const years = getTimeLineYears(currentYear - earliestBirthYear);
+  console.log(earliestBirthYear);
   // need to find a more exact way of centering the years over the lines
   // scroll to control min width of columns could work
   return (

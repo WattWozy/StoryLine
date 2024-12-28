@@ -16,12 +16,7 @@ export const PersonContextProvider = ({
   children: ReactNode;
 }) => {
   const [persons, setPersons] = useState<Person[]>([
-    {
-        name: "Elon Musk", birthYear: 1971, deathYear: null,
-        description: "",
-        BC: undefined,
-        imageUrl: ""
-      },
+
   ]);
   const addPerson = (person: Person) => {
     setPersons(prevPersons => [...prevPersons, person]);

@@ -4,9 +4,9 @@ const beforeChrist = /\(\s*.*?\d+.*?BC.*?\)/i;
 
 export const getBirthYearFromDescription = (description: String) => {
 
-    const dead = description.match(deadPattern);
-    const alive = description.match(alivePattern);
-    const deadBC = description.match(beforeChrist);
+    const dead = description?.match(deadPattern);
+    const alive = description?.match(alivePattern);
+    const deadBC = description?.match(beforeChrist);
 
     if (dead) {
       return {
