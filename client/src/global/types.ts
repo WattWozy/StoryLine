@@ -1,13 +1,7 @@
 export interface Person {
   name: string;
-  birth: number;
-  death: number | null;
-}
-
-export interface SearchResult {
-  name: string;
   description: string;
-  birthYear: number | null;
+  birthYear: number;
   deathYear: number | null;
   BC: string | undefined;
   imageUrl: string;

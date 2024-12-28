@@ -14,18 +14,17 @@ const getTimeLineYears = (length: number) => {
 
 const Timeline: React.FC<TimeLineProps> = ({ persons }) => {
   const earliestBirthYear = persons.reduce((earliest, person) => {
-    return person.birth < earliest ? person.birth : earliest;
+    return person.birthYear < earliest ? person.birthYear : earliest;
   }, Infinity);
 
   const years = getTimeLineYears(currentYear - earliestBirthYear);
-  const columns = years.length;
   // need to find a more exact way of centering the years over the lines
   // scroll to control min width of columns could work
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${columns}, minmax(50px, 1fr)`,
+        gridTemplateColumns: `repeat(${years.length}, minmax(50px, 1fr)`,
       }}
       className="overflow-x-auto bg-white h-screen pt-32 z-0"
     >

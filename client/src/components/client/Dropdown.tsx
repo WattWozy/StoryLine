@@ -1,10 +1,10 @@
-import { SearchResult } from '@/global/types'
+import { Person } from '@/global/types'
 import React from 'react'
 import defaultImage from '../../../public/defaultImage.jpg'
 import Image from 'next/image'
 
 interface DropdownProps {
-  results: Array<SearchResult>
+  results: Array<Person>
 }
 
 const Dropdown: React.FC<DropdownProps> = ({ results }) => {

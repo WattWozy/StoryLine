@@ -1,13 +1,12 @@
 "use client";
-import { SearchResult, WikipediaApiResponse } from "@/global/types";
+import { Person, WikipediaApiResponse } from "@/global/types";
 import React, { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
 import { getBirthYearFromDescription, isValidDescription } from "@/global/util";
 
-
 const Search = () => {
-  const [searchTerm, setsearchTerm] = useState("");
-  const [results, setResults] = useState<SearchResult[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState<Person[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -21,40 +20,46 @@ const Search = () => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
-  const fetchResults = async (term: string) => {
-    const response = await fetch(`https://en.wikipedia.org/w/rest.php/v1/search/title?q=${term}&limit=10`, {
-      method: "GET",
-    });
+  const doWikiSearch = async (term: string) => {
+    const response = await fetch(
+      `https://en.wikipedia.org/w/rest.php/v1/search/title?q=${term}&limit=10`,
+      {
+        method: "GET",
+      }
+    );
 
     if (response.ok) {
       const json: WikipediaApiResponse = await response.json();
 
-      const filteredResults: Array<SearchResult> = json.pages
-      .filter(page => {
-        const { description } = page;
-        return description ? isValidDescription(description) : false
-      }).map(page => {
-        const { birthYear, deathYear, BC } = getBirthYearFromDescription(page.description);
+      //we can probably find a more elegant way of doing this
+      const filteredResults: Array<Person> = json.pages.map((page) => {
+        const { birthYear, deathYear, BC } = getBirthYearFromDescription(
+          page.description
+        );
 
-        const searchResult: SearchResult = {
+        if(birthYear === null){
+          return null;
+        }
+
+        const Person: Person = {
           name: page.title,
           description: page.description,
           birthYear: birthYear,
           deathYear: deathYear,
           imageUrl: page.thumbnail?.url,
-          BC: BC?.toString()
-        }
+          BC: BC?.toString(),
+        };
 
-        console.log(searchResult.description)
-        return searchResult;
-      });
+        console.log(Person.description);
+        return Person;
+      }).filter(person => person !== null);
 
       setResults(filteredResults);
     }
@@ -62,9 +67,9 @@ const Search = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value;
-    setsearchTerm(term);
+    setSearchTerm(term);
     if (term.length > 2) {
-      fetchResults(term);
+      doWikiSearch(term);
     } else {
       setResults([]); // Clear results if less than 3 characters
     }
