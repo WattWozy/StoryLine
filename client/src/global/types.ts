@@ -2,7 +2,7 @@ export interface Person {
   name: string;
   description: string;
   birthYear: number;
-  deathYear: number | null;
+  deathYear: number;
   BC: string | undefined;
   imageUrl: string;
 }

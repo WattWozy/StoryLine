@@ -3,57 +3,71 @@ import React, { useEffect, useState } from "react";
 import { Person } from "@/global/types";
 import PersonLine from "./PersonLine";
 import { usePersonContext } from "../contexts/PersonContext";
+import { log } from "console";
 
 interface TimeLineProps {
   persons: Array<Person>;
 }
 
 const currentYear = new Date().getFullYear();
+const yearsInterval = 10;
 
-const getTimeLineYears = (length: number) => {
-  return Array.from({ length: length }, (_, index) => currentYear - index).reverse();
-};
+const getTimelineYears = (startYear: number, endYear: number) => {
+  let timelineYears: Array<number> = [];
+  for (var i = startYear; i <= endYear; i++) {
+    timelineYears.push(i);
+  }
+  return timelineYears;
+}
 
 const Timeline = () => {
-  
-  const { persons } = usePersonContext();
 
-  const [earliestBirthYear, setEarliestBirthYear] = useState(1800);
+  const { persons } = usePersonContext();
+  const defaultYears = getTimelineYears(currentYear - 50, currentYear)
+  const [yearsToDisplay, setYearsToDisplay] = useState<number[]>(defaultYears);
 
   useEffect(() => {
-  
-    const year = persons.reduce((earliest, person) => {
-      return person.birthYear < earliest ? person.birthYear : earliest;
-    }, 1800);
-  
 
     return () => {
-      setEarliestBirthYear(year)
+      if (persons.length !== 0) {
+        let earliestBirthYear = persons[0].birthYear
+        let latestDeathYear = persons[0].deathYear
+        for (var i = 0; i < persons.length; i++) {
+          if (persons[i].birthYear < earliestBirthYear) {
+            earliestBirthYear = persons[i].birthYear;
+          }
+          if (persons[i].deathYear > latestDeathYear) {
+            latestDeathYear = persons[i].deathYear;
+          }
+        }
+        const timelineYears = getTimelineYears(earliestBirthYear, latestDeathYear)
+        setYearsToDisplay(timelineYears)
+      } else {
+        const timelineYears = getTimelineYears(currentYear - 50, currentYear)
+        setYearsToDisplay(timelineYears)
+      }
     }
   }, [persons])
-  
 
-  const years = getTimeLineYears(currentYear - earliestBirthYear);
-  console.log(earliestBirthYear);
-  // need to find a more exact way of centering the years over the lines
-  // scroll to control min width of columns could work
+  const numberOfYears = yearsToDisplay.length;
+
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: `repeat(${years.length}, minmax(50px, 1fr)`,
+        gridTemplateColumns: `repeat(${numberOfYears}, minmax(20px, 1fr)`,
       }}
-      className="overflow-x-auto bg-white h-screen pt-32 z-0"
+      className="overflow-x-auto bg-white h-screen w-screen pt-32 z-0"
     >
-      {years.map((year) => (
+      {yearsToDisplay.map((year) => (
         <div key={year} className="h-10 ">
           <div className=" -left-4 relative  text-6 font-light overflow-visible h-8">
-            {year % 5 === 0 || year === currentYear ? year : ""}
+            {year % yearsInterval === 0 || year === currentYear ? year : ""}
           </div>
           <div
             className={
               "h-screen w-px" +
-              (year % 5 === 0 ? " bg-slate-500" : " bg-slate-300")
+              (year % yearsInterval === 0 ? " bg-slate-500" : " bg-slate-300")
             }
           ></div>
         </div>
@@ -64,11 +78,11 @@ const Timeline = () => {
           key={row}
           person={person}
           row={row}
-          timeLineStart={years[0]}
-          timeLineLength={years.length}
+          timeLineStart={yearsToDisplay[0]}
+          timeLineLength={numberOfYears}
         />
       )
-        
+
       )}
     </div>
   );
