@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Person } from "@/global/types";
 import PersonLine from "./PersonLine";
 import { usePersonContext } from "../contexts/PersonContext";
-import { log } from "console";
 
 interface TimeLineProps {
   persons: Array<Person>;
@@ -27,27 +26,29 @@ const Timeline = () => {
   const [yearsToDisplay, setYearsToDisplay] = useState<number[]>(defaultYears);
 
   useEffect(() => {
-
-    return () => {
-      if (persons.length !== 0) {
-        let earliestBirthYear = persons[0].birthYear
-        let latestDeathYear = persons[0].deathYear
-        for (var i = 0; i < persons.length; i++) {
-          if (persons[i].birthYear < earliestBirthYear) {
-            earliestBirthYear = persons[i].birthYear;
-          }
-          if (persons[i].deathYear > latestDeathYear) {
-            latestDeathYear = persons[i].deathYear;
-          }
-        }
-        const timelineYears = getTimelineYears(earliestBirthYear, latestDeathYear)
-        setYearsToDisplay(timelineYears)
-      } else {
-        const timelineYears = getTimelineYears(currentYear - 50, currentYear)
-        setYearsToDisplay(timelineYears)
-      }
-    }
+    handleSetYearsToDisplay();
   }, [persons])
+
+  const handleSetYearsToDisplay = () => {
+    if (persons.length !== 0) {
+      let earliestBirthYear = persons[0].birthYear
+      let latestDeathYear = persons[0].deathYear
+      for (var i = 0; i < persons.length; i++) {
+        if (persons[i].birthYear < earliestBirthYear) {
+          earliestBirthYear = persons[i].birthYear;
+        }
+        if (persons[i].deathYear > latestDeathYear) {
+          latestDeathYear = persons[i].deathYear;
+        }
+      }
+      const timelineYears = getTimelineYears(earliestBirthYear, latestDeathYear)
+      setYearsToDisplay(timelineYears)
+    } else {
+      const timelineYears = getTimelineYears(currentYear - 50, currentYear)
+      setYearsToDisplay(timelineYears)
+    }
+  }
+
 
   const numberOfYears = yearsToDisplay.length;
 
