@@ -1,26 +1,19 @@
-const deadPattern = /.*\(\d+\s*,\s*\d+\).*/;
+const deadPattern = /(\d{4})[–-](\d{4})/;
 const alivePattern = /\( *born *.*?\d+.*?\)/i;
 const beforeChrist = /\(\s*.*?\d+.*?BC.*?\)/i;
 
 export const getBirthYearFromDescription = (description: String) => {
 
-
-
     const dead = description?.match(deadPattern);
     const alive = description?.match(alivePattern);
-    const BC = description?.match(beforeChrist);
+    const deadBC = description?.match(beforeChrist);
 
-
-
-    
-    if (BC) {
-      const years = BC[0].toString().replace(/[a-zA-Z\s.()]/g, '')
-      const yearArray = years.split('–');
+    if (dead) {
       return {
-        birthYear: parseInt(yearArray[0]),
-        deathYear: parseInt(yearArray[1]),
-        BC: 'BC'
-      }
+        birthYear: parseInt(dead[1], 10),
+        deathYear: parseInt(dead[2], 10),
+        BC: null
+      };
     } else if (alive) {
       const aliveYear = alive.toString().replace(/[a-zA-Z\s()]/g, '')
       return {
@@ -28,13 +21,14 @@ export const getBirthYearFromDescription = (description: String) => {
         deathYear: new Date().getFullYear(),
         BC: null
       };
-    } else if (dead) {
+    } else if (deadBC) {
+      const years = deadBC[0].toString().replace(/[a-zA-Z\s.()]/g, '')
+      const yearArray = years.split('–');
       return {
-        birthYear: parseInt(dead[1], 10),
-        deathYear: parseInt(dead[2], 10),
-        BC: null
-      };
-
+        birthYear: parseInt(yearArray[0]),
+        deathYear: parseInt(yearArray[1]),
+        BC: 'BC'
+      }
     }
 
     return { birthYear: null, deathYear: null };

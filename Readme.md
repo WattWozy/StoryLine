@@ -1,4 +1,6 @@
 ## TODO
+- Clicking a search result should add it to the list of historical persons (tricky)
+- Handle now living persons (always have born + year in description, make special case to handle)
 - Improve regex for handling birth and death years. Currently only supports 4 digits (see alex the great)
 - General cleanup, refactoring and renaming
 
