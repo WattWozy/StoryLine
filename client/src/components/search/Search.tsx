@@ -52,7 +52,7 @@ const Search = () => {
           name: page.title,
           description: page.description,
           birthYear: birthYear,
-          deathYear: deathYear? deathYear : new Date().getFullYear(),
+          deathYear: deathYear,
           imageUrl: page.thumbnail?.url,
           BC: BC?.toString(),
         };

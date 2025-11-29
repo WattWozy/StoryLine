@@ -20,7 +20,7 @@ const PersonLine: React.FC<PersonProps> = ({
 }) => {
   const { birthYear, deathYear } = person;
   const startColumn = birthYear - timeLineStart + 1;
-  const endColumn = deathYear ? deathYear - timeLineStart + 1 : timeLineLength;
+  const endColumn = deathYear !== null ? deathYear - timeLineStart + 1 : timeLineLength;
 
 
   const { removePerson } = usePersonContext();

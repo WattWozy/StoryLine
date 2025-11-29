@@ -32,13 +32,14 @@ const Timeline = () => {
   const handleSetYearsToDisplay = () => {
     if (persons.length !== 0) {
       let earliestBirthYear = persons[0].birthYear
-      let latestDeathYear = persons[0].deathYear
+      let latestDeathYear = persons[0].deathYear || currentYear
       for (var i = 0; i < persons.length; i++) {
         if (persons[i].birthYear < earliestBirthYear) {
           earliestBirthYear = persons[i].birthYear;
         }
-        if (persons[i].deathYear > latestDeathYear) {
-          latestDeathYear = persons[i].deathYear;
+        const deathYear = persons[i].deathYear || currentYear;
+        if (deathYear > latestDeathYear) {
+          latestDeathYear = deathYear;
         }
       }
       const timelineYears = getTimelineYears(earliestBirthYear, latestDeathYear)
