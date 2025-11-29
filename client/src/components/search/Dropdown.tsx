@@ -1,8 +1,8 @@
-import { Person } from '@/global/types'
+import { Person } from '@/types'
 import React from 'react'
 import defaultImage from '../../../public/defaultImage.jpg'
 import Image from 'next/image'
-import { usePersonContext } from '../contexts/PersonContext'
+import { usePersonContext } from '@/context/PersonContext'
 
 interface DropdownProps {
   results: Array<Person>

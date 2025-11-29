@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { Person } from "@/global/types";
+import { Person } from "@/types";
 import PersonLine from "./PersonLine";
-import { usePersonContext } from "../contexts/PersonContext";
+import { usePersonContext } from "@/context/PersonContext";
 
 interface TimeLineProps {
   persons: Array<Person>;

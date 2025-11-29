@@ -1,8 +1,8 @@
 "use client";
-import { Person, WikipediaApiResponse } from "@/global/types";
+import { Person, WikipediaApiResponse } from "@/types";
 import React, { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
-import { getBirthYearFromDescription, isValidDescription } from "@/global/util";
+import { getBirthYearFromDescription, isValidDescription } from "@/lib/utils";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,7 +59,7 @@ const Search = () => {
 
         console.log(Person.description);
         return Person;
-      }).filter(person => person !== null);
+      }).filter((person): person is Person => person !== null);
 
       setResults(filteredResults);
     }

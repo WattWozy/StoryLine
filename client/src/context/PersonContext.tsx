@@ -1,5 +1,5 @@
 "use client"
-import { Person } from "@/global/types";
+import { Person } from "@/types";
 import { createContext, ReactNode, useContext, useState } from "react";
 
 interface PersonContextType {

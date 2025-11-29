@@ -2,8 +2,8 @@
 import React from "react";
 import Image from 'next/image'
 import defaultImage from '../../../public/defaultImage.jpg'
-import { Person } from "@/global/types";
-import { usePersonContext } from "../contexts/PersonContext";
+import { Person } from "@/types";
+import { usePersonContext } from "@/context/PersonContext";
 
 interface PersonProps {
   person: Person;
